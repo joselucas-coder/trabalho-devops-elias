@@ -2,20 +2,23 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '12' # FALHA 7: Versão do Node.js antiga e incompatível. A pipeline vai quebrar aqui.
+          node-version: '20'
 
-      - name: Install Dependencies
+      - name: Install Dependencies (Backend)
         run: |
           cd backend
           npm install
@@ -25,4 +28,5 @@ jobs:
           cd backend
           npm test
 
-      # FALHA 8: Faltam os passos de Build do Frontend e Build das Imagens Docker.
+      - name: Build Docker Images
+        run: docker compose build
