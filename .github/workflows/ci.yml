@@ -26,7 +26,7 @@ jobs:
       - name: Run Tests
         run: |
           cd backend
-          npm test
+          npm test -- --forceExit
 
       - name: Build Docker Images
         run: docker compose build
