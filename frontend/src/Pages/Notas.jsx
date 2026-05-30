@@ -1,6 +1,6 @@
-import Header from '../components/Header';
-import TextoDescritivo from '../components/TextoDescritivo';
-import Tabela from '../components/Tabela'; 
+import Header from '../Components/Header';
+import TextoDescritivo from '../Components/TextoDescritivo';
+import Tabela from '../Components/Tabela'; 
 
 export default function Notas() {
   
