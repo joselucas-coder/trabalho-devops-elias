@@ -1,6 +1,6 @@
-import Header from '../components/Header';
-import TextoDescritivo from '../components/TextoDescritivo';
-import CardLista from '../components/CardLista';
+import Header from '../Components/Header';
+import TextoDescritivo from '../Components/TextoDescritivo';
+import CardLista from '../Components/CardLista';
 import { useAuth } from '../contexts/AuthContext';
 
 export default function Dashboard() {
