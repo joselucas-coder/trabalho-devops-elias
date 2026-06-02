@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   frontend:
     build: ./frontend
@@ -24,15 +22,14 @@ services:
     image: postgres:15
     container_name: startup-db
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=senha_correta
+      - POSTGRES_DB=startup_db
     ports:
       - "5432:5432"
-    # FALHA 5: Persistência de dados comentada. Vai perder dados se reiniciar.
-    # volumes:
-    #   - pgdata:/var/lib/postgresql/data
-    # FALHA 6: O init.sql não está sendo chamado para criar a tabela.
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-# volumes:
-#   pgdata:
+volumes:
+  pgdata:
