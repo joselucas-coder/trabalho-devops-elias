@@ -14,20 +14,19 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # FALHA 2: DB_HOST apontando para localhost em vez do nome do serviço do banco ('db')
-      - DB_HOST=localhost
-      - DB_USER=postgres
-      - DB_PASSWORD=senha_errada # FALHA 3: Senha incorreta
-      - DB_NAME=startup_db
+      - DB_HOST=db
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=${POSTGRES_DB}
     # FALHA 4: Falta o depends_on e healthcheck. O backend vai subir antes do banco estar pronto.
 
   db:
     image: postgres:15
     container_name: startup-db
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=senha_correta
-      - POSTGRES_DB=startup_db
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "5432:5432"
     # FALHA 5: Persistência de dados comentada. Vai perder dados se reiniciar.
