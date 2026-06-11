@@ -1,12 +1,11 @@
-version: '3.8'
-
 services:
   frontend:
     build: ./frontend
     container_name: startup-frontend
     ports:
-      - "5173:5173"
-    # FALHA 1: Faltam variáveis de ambiente para o frontend acessar a API no Docker
+      - "5173:80"
+    environment:
+      - VITE_API_URL=http://localhost:3000
 
   backend:
     build: ./backend
@@ -14,12 +13,13 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # FALHA 2: DB_HOST apontando para localhost em vez do nome do serviço do banco ('db')
-      - DB_HOST=localhost
+      - DB_HOST=db
       - DB_USER=postgres
-      - DB_PASSWORD=senha_errada # FALHA 3: Senha incorreta
+      - DB_PASSWORD=senha_correta
       - DB_NAME=startup_db
-    # FALHA 4: Falta o depends_on e healthcheck. O backend vai subir antes do banco estar pronto.
+    depends_on:
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:15
@@ -30,10 +30,14 @@ services:
       - POSTGRES_DB=startup_db
     ports:
       - "5432:5432"
-    # FALHA 5: Persistência de dados comentada. Vai perder dados se reiniciar.
-    # volumes:
-    #   - pgdata:/var/lib/postgresql/data
-    # FALHA 6: O init.sql não está sendo chamado para criar a tabela.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d startup_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-# volumes:
-#   pgdata:
+volumes:
+  pgdata:
