@@ -7,7 +7,7 @@ Este repositório contém a infraestrutura e o código do projeto Aluno Online, 
 Para rodar a aplicação completa (Frontend, Backend e Banco de Dados) localmente, siga os passos:
 
 1. Clone o repositório:
-   `git clone https://github.com/joselucas-coder/trabalho-devops-elias.gitt`
+   `git clone https://github.com/joselucas-coder/trabalho-devops-elias.git`
 2. Entre na pasta do projeto:
    `cd trabalho-devops-elias`
 3. Suba a infraestrutura utilizando o Docker Compose:
